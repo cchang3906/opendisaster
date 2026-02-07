@@ -1,0 +1,18 @@
+{
+  "name": "opendisaster",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/three": "^0.182.0",
+    "bitecs": "^0.4.0",
+    "jolt-physics": "^1.0.0",
+    "three": "^0.182.0"
+  }
+}
