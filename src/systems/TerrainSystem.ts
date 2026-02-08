@@ -110,7 +110,8 @@ export class TerrainData {
           const t = dist / radius;
           const falloff = 0.5 * (1 + Math.cos(Math.PI * t));
           const idx = j * this.vertsPerSide + i;
-          this.heightmap[idx] += delta * falloff;
+          this.heightmap[idx] =
+            (this.heightmap[idx] ?? 0) + delta * falloff;
         }
       }
     }

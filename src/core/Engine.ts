@@ -4,6 +4,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 export interface EngineOptions {
   canvas?: HTMLCanvasElement;
   antialias?: boolean;
+  forceWebGL?: boolean;
 }
 
 export class Engine {
@@ -13,8 +14,11 @@ export class Engine {
   controls!: OrbitControls;
 
   private onUpdateCallbacks: ((dt: number) => void)[] = [];
+  private onBeforeRenderCallbacks: (() => void)[] = [];
   private lastTime = 0;
   private _running = false;
+
+  private forceWebGL: boolean;
 
   constructor(options: EngineOptions = {}) {
     // Scene
@@ -39,6 +43,8 @@ export class Engine {
 
     // Resize handler
     window.addEventListener("resize", this.onResize);
+
+    this.forceWebGL = options.forceWebGL ?? false;
   }
 
   private setupLighting(): void {
@@ -75,12 +81,15 @@ export class Engine {
     this.onUpdateCallbacks.push(callback);
   }
 
+  onBeforeRender(callback: () => void): void {
+    this.onBeforeRenderCallbacks.push(callback);
+  }
   async start(): Promise<void> {
     // Try WebGPU first, fall back to WebGL
     let renderer: THREE.WebGLRenderer;
     let backendName = "WebGL";
 
-    if ("gpu" in navigator) {
+    if (!this.forceWebGL && "gpu" in navigator) {
       try {
         const { WebGPURenderer } = await import("three/webgpu");
         renderer = new WebGPURenderer({
@@ -132,6 +141,9 @@ export class Engine {
     }
 
     this.controls.update();
+    for (const cb of this.onBeforeRenderCallbacks) {
+      cb();
+    }
     this.renderer.render(this.scene, this.camera);
   };
 

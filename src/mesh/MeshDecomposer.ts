@@ -52,38 +52,38 @@ export class MeshDecomposer {
       const eid = addEntity(ecsWorld);
 
       // Position
-      addComponent(ecsWorld, Position, eid);
+      addComponent(ecsWorld, Position as any, eid);
       Position.x[eid] = mesh.position.x;
       Position.y[eid] = mesh.position.y;
       Position.z[eid] = mesh.position.z;
 
       // Rotation
-      addComponent(ecsWorld, Rotation, eid);
+      addComponent(ecsWorld, Rotation as any, eid);
       Rotation.x[eid] = mesh.quaternion.x;
       Rotation.y[eid] = mesh.quaternion.y;
       Rotation.z[eid] = mesh.quaternion.z;
       Rotation.w[eid] = mesh.quaternion.w;
 
       // Scale
-      addComponent(ecsWorld, Scale, eid);
+      addComponent(ecsWorld, Scale as any, eid);
       Scale.x[eid] = mesh.scale.x;
       Scale.y[eid] = mesh.scale.y;
       Scale.z[eid] = mesh.scale.z;
 
       // MeshRef
-      addComponent(ecsWorld, MeshRef, eid);
+      addComponent(ecsWorld, MeshRef as any, eid);
       const poolIdx = this.objectPool.length;
       this.objectPool.push(mesh);
       MeshRef.objectId[eid] = poolIdx;
 
       // Classification
-      addComponent(ecsWorld, Classification, eid);
+      addComponent(ecsWorld, Classification as any, eid);
       const classificationType = TYPE_TO_CLASSIFICATION[classified.type];
       Classification.type[eid] = classificationType;
 
       // Health (for buildings)
       if (classified.type === "building") {
-        addComponent(ecsWorld, Health, eid);
+        addComponent(ecsWorld, Health as any, eid);
         Health.current[eid] = 100;
         Health.max[eid] = 100;
         Health.damageThreshold[eid] = 0.04;

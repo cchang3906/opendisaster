@@ -10,6 +10,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@openai/codex": "^0.98.0",
     "@types/three": "^0.182.0",
     "bitecs": "^0.4.0",
     "jolt-physics": "^1.0.0",
